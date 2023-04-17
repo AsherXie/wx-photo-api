@@ -4,7 +4,7 @@ const fs = require('fs');
 const path = require('path');
 const connetion = require("../myqsql");
 
-Router.get("/api/user", (req, res) => {
+Router.get("/user", (req, res) => {
   const token = req.headers.authorization.split(" ")[1];
   jwt.verify(token, "secret_key", (error) => {
     if (!error) {
@@ -20,7 +20,7 @@ Router.get("/api/user", (req, res) => {
     });
   });
 });
-Router.post("/api/login", (req, res) => {
+Router.post("/login", (req, res) => {
   console.log(req)
   try {
     connetion.query(
@@ -66,7 +66,7 @@ Router.post("/api/login", (req, res) => {
 
   // res.send('11');
 });
-Router.get("/api/logout", (req, res) => {
+Router.get("/logout", (req, res) => {
   const token = req.headers.authorization.split(" ")[1];
   if (token) {
     fs.appendFileSync(
