@@ -41,6 +41,6 @@ jobs:
             ./* => /home/program/wx-photo-api
           # 完成拷贝后在部署服务器执行的命令：进入项目目录，安装生产依赖，并使用 pm2 管理
           # last_ssh: |
-          #   cd /home/program/wx-photo-api
+          #   cd /program/wx-active-api
           #   pnpm i
-          #   pm2 restart app.js
+          #   pm2 start app.js
