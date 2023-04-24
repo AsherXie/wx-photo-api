@@ -5,12 +5,12 @@ const Router = require('./router/index');
 const path = require('path');
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(express.json());
-
+app.set('base', '/api');
 Router(app);
 
 app.use('/public', express.static(path.resolve(__dirname, './public/images')));
 
-app.get('/api', (_, res)=>{
+app.get('/', (_, res)=>{
   res.status(200).type('html').send('123123123123');
 });
 
