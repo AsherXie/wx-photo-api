@@ -1,8 +1,7 @@
-const user = require('./user')
-const active = require('./active')
+const user = require('./user');
+const active = require('./active');
 
 module.exports = (express)=>{
-    express.use('/', user)
-    express.use('/', active)
-
-}
+  express.use('/api', user);
+  express.use('/api', active);
+};

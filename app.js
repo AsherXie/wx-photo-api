@@ -7,7 +7,9 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(express.json());
 app.set('base', '/api');
 Router(app);
-
+app.use('/api', (_, __, next)=>{
+  next();
+});
 app.use('/public', express.static(path.resolve(__dirname, './public/images')));
 
 app.get('/', (_, res)=>{
