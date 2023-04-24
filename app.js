@@ -10,7 +10,7 @@ Router(app);
 
 app.use('/public', express.static(path.resolve(__dirname, './public/images')));
 
-app.get('/', (_, res)=>{
+app.get('/api', (_, res)=>{
   res.status(200).type('html').send('123123123123');
 });
 
