@@ -29,7 +29,6 @@ const uploadMiddle = upload.single('file');
 
 Router.post('/active/upload', (req, res) => {
   uploadMiddle(req, res, (err, data)=>{
-    // console.log(req.file);
     if(err) {
       res.status(400).send({
         msg: err.message
@@ -37,13 +36,7 @@ Router.post('/active/upload', (req, res) => {
       return;
     }
     res.status(200).send({ msg: 'ok', url: `/public/${req.file.filename}` });
-
   });
-  // const sql = "insert into wx_images (name, description, email) values (?,?,?)";
-
-  // connercton.query(sql, ['123','123','123123'], (err, data) => {
-  //     // res.send('123213')
-  // });
 });
 
 Router.post('/active/add', (req, res) => {
@@ -71,6 +64,7 @@ Router.get('/active/list', (req, res)=>{
     });
   });
 });
+
 Router.put('/active/add', (req, res) => {
   const { id, is_pass } = req.body;
   if(!id) {
@@ -110,4 +104,5 @@ Router.put('/active/add', (req, res) => {
     // console.log(data);
   });
 });
+
 module.exports = Router;

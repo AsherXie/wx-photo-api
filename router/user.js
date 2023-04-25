@@ -1,9 +1,10 @@
 const Router = require("express").Router();
-const jwt = require('jsonwebtoken');
-const fs = require('fs');
-const path = require('path');
+const jwt = require("jsonwebtoken");
+const fs = require("fs");
+const path = require("path");
 const connetion = require("../myqsql");
-
+const bcrypt = require("bcrypt");
+// 查询用户信息
 Router.get("/user", (req, res) => {
   const token = req.headers.authorization.split(" ")[1];
   jwt.verify(token, "secret_key", (error) => {
@@ -20,20 +21,23 @@ Router.get("/user", (req, res) => {
     });
   });
 });
+// 登录
 Router.post("/login", (req, res) => {
-  console.log(req)
   try {
     connetion.query(
-      "SELECT * FROM wx_user WHERE NAME = ?",
+      "SELECT * FROM user_admin WHERE username = ?",
       [req.body.username],
-      (err, data) => {
+      async (err, data) => {
         if (data && data.length) {
-          // console.log(999);
-          const { password, name: username } = data[0];
-          // console.log(req.body.username, username, req.body.password, password);
-          if (
-            (req.body.username === username, req.body.password === password)
-          ) {
+          const { password, username, is_not } = data[0];
+          if(is_not) {
+            res.status(402).send({
+              data: null,
+              msg: "账号已被封禁！",
+            });
+          }
+          const pw = await bcrypt.compare(req.body.password, password)
+          if (pw) {
             const token = jwt.sign(
               {
                 password,
@@ -66,6 +70,7 @@ Router.post("/login", (req, res) => {
 
   // res.send('11');
 });
+// 登出
 Router.get("/logout", (req, res) => {
   const token = req.headers.authorization.split(" ")[1];
   if (token) {
@@ -76,5 +81,33 @@ Router.get("/logout", (req, res) => {
   }
   res.send("none");
 });
-
-module.exports = Router
+// 注册
+Router.post("/register", async (req, res) => {
+  const { username, password } = req.body;
+  // const pwd =
+  const salt = await bcrypt.genSalt(10);
+  const hash = await bcrypt.hash(password, salt);
+  const sqlInsert = "INSERT INTO user_admin (username, password) VALUES (?,?)";
+  connetion.query(
+    `SELECT * FROM user_admin WHERE username=${username}`,
+    (err, data) => {
+      if (data && data.length) {
+        res.status(400).send({
+          error: 1,
+          msg: "用户名已存在",
+        });
+        return;
+      }
+      connetion.query(sqlInsert, [username, hash], (err, data) => {
+        console.log(err, data);
+        if(!err) {
+          res.status(200).send({
+            error: 0,
+            msg: "success",
+          });
+        }
+      });
+    }
+  );
+});
+module.exports = Router;
