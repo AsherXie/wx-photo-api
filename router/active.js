@@ -40,9 +40,9 @@ Router.post('/active/upload', (req, res) => {
 });
 
 Router.post('/active/add', (req, res) => {
-  const { name, image_url, remark } = req.body;
-  const sql = 'INSERT INTO wx_photo (name,image_url,remark) values (?,?,?)';
-  connercton.query(sql, [ name, image_url, remark ], (err, data) => {
+  const { name, image_url, remark, listen } = req.body;
+  const sql = 'INSERT INTO wx_photo (name,image_url,remark,listen) values (?,?,?,?)';
+  connercton.query(sql, [ name, image_url, remark, listen ], (err, data) => {
     if(err){
       res.status(400).send({
         msg: '图片不存在',
