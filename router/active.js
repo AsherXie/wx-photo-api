@@ -4,7 +4,7 @@ const connercton = require('../myqsql/index');
 const Router = require('express').Router();
 const storage = multer.diskStorage({
   destination (req, file, cb) {
-    cb(null, path.resolve(__dirname, '../public/images'));
+    cb(null, path.resolve('/active-images'));
   },
   filename (req, file, cb) {
     cb(null, Date.now() + path.extname(file.originalname));
@@ -13,7 +13,7 @@ const storage = multer.diskStorage({
 const upload = multer({
   storage,
   limits: {
-    fileSize: 1048576*3,
+    fileSize: 1048576 * 3,
     files: 1,
   },
   fileFilter (req, file, cb) {
@@ -29,6 +29,7 @@ const uploadMiddle = upload.single('file');
 
 Router.post('/active/upload', (req, res) => {
   uploadMiddle(req, res, (err, data)=>{
+    console.log(req.file);
     if(err) {
       res.status(400).send({
         msg: err.message
