@@ -29,7 +29,6 @@ const uploadMiddle = upload.single('file');
 
 Router.post('/active/upload', (req, res) => {
   uploadMiddle(req, res, (err, data)=>{
-    console.log(req.file);
     if(err) {
       res.status(400).send({
         msg: err.message
@@ -54,15 +53,6 @@ Router.post('/active/add', (req, res) => {
       });
     }
     // console.log(data);
-  });
-});
-
-Router.get('/active/list', (req, res)=>{
-  const sql = 'SELECT * FROM wx_photo';
-  connercton.query(sql, (err, data) => {
-    res.send({
-      data
-    });
   });
 });
 
@@ -103,6 +93,15 @@ Router.put('/active/add', (req, res) => {
       });
     }
     // console.log(data);
+  });
+});
+
+Router.get('/active/list', (req, res)=>{
+  const sql = 'SELECT * FROM wx_photo';
+  connercton.query(sql, (err, data) => {
+    res.send({
+      data
+    });
   });
 });
 
