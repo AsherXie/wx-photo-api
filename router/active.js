@@ -35,14 +35,14 @@ Router.post('/active/upload', (req, res) => {
       });
       return;
     }
-    res.status(200).send({ msg: 'ok', url: `/public/${req.file.filename}` });
+    res.status(200).send({ msg: 'ok', url: `/${req.file.filename}` });
   });
 });
 
 Router.post('/active/add', (req, res) => {
-  const { name, image_url, remark, listen } = req.body;
-  const sql = 'INSERT INTO wx_photo (name,image_url,remark,listen) values (?,?,?,?)';
-  connercton.query(sql, [ name, image_url, remark, listen ], (err, data) => {
+  const { name, image_url, remark, listen, work_name } = req.body;
+  const sql = 'INSERT INTO wx_photo (name,work_name,image_url,remark,listen) values (?,?,?,?,?)';
+  connercton.query(sql, [ name, work_name, image_url, remark, listen ], (err, data) => {
     if(err){
       res.status(400).send({
         msg: '图片不存在',
