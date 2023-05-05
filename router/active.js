@@ -45,7 +45,7 @@ Router.post('/active/add', (req, res) => {
   connercton.query(sql, [ name, work_name, image_url, remark, listen ], (err, data) => {
     if(err){
       res.status(400).send({
-        msg: '图片不存在',
+        msg: err.message,
       });
     } else {
       res.status(200).send({
