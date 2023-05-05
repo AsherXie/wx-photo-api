@@ -75,7 +75,7 @@ Router.put('/active/add', (req, res) => {
   const sql = `UPDATE wx_photo SET is_pass=${is_pass} WHERE id = ?`;
   // const { file_id } = req.body;
   // const sql = 'SELECT * FROM wx_photo WHERE is_delete=0';
-  connercton.query(sql, [ is_pass ], (err, data) => {
+  connercton.query(sql, [ id ], (err, data) => {
     if(err){
       res.status(400).send({
         error: 1,
